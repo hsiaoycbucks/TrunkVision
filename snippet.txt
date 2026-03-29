@@ -1,0 +1,16 @@
+<model-viewer src="forest.glb" ar ar-modes="webxr scene-viewer quick-look" camera-controls tone-mapping="neutral" poster="poster.webp" shadow-intensity="1.04" shadow-softness="1" exposure="1.02" auto-rotate>
+    <button class="Hotspot" slot="hotspot-1" data-position="0.9571146975059008m 0.09069917079744982m -0.8168515916526218m" data-normal="-0.25869912637387166m 0.030449677727739134m 0.9654779019426972m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Sample Tree 1</div>
+    </button><button class="Hotspot" slot="hotspot-2" data-position="2.0914724138491536m 2.717845417651624m -2.154237859587262m" data-normal="0.7070958749684654m 0.00555402603169348m -0.7070958749684654m" data-visibility-attribute="visible">
+        <div class="HotspotAnnotation">Sample Tree 2</div>
+    </button>
+    <div class="progress-bar hide" slot="progress-bar">
+        <div class="update-bar"></div>
+    </div>
+    <button slot="ar-button" id="ar-button">
+        View in your space
+    </button>
+    <div id="ar-prompt">
+        <img src="https://modelviewer.dev/shared-assets/icons/hand.png">
+    </div>
+</model-viewer>

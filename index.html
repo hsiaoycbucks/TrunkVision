@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>立體數據森林(手機 AR 整合版)</title>
+    
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.2.0/model-viewer.min.js"></script>
+
+    <style>
+        body { margin: 0; padding: 0; width: 100vw; height: 100vh; overflow: hidden; font-family: sans-serif; background-color: #fafafa; }
+
+        /* 3D 視窗設定：全螢幕 */
+        model-viewer {
+            width: 100%;
+            height: 100%;
+            --poster-color: #fafafa;
+        }
+
+        /* --- Hotspots (熱點) 樣式 --- */
+        .hotspot-button {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            border: 2px solid #ffffff;
+            background-color: #ffcc00; /* 黃色原點 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: transform 0.2s;
+            opacity: 0.8;
+            padding: 0;
+        }
+
+        /* 當 Hotspot 在模型背後時自動隱藏 */
+        /*.hotspot-button:not([data-visible]) {
+            opacity: 0;
+            pointer-events: none;
+        }*/
+
+        /* 點擊時縮放回饋 */
+        .hotspot-button:active {
+            transform: scale(1.2);
+            background-color: #ffffff;
+        }
+
+        /* --- 手機優化：彈出式數據卡片 (Overlay) --- */
+        #data-overlay {
+            position: fixed;
+            bottom: -100%; /* 預設隱藏在底部 */
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px); /* 磨砂玻璃效果 */
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -5px 15px rgba(0,0,0,0.2);
+            transition: bottom 0.3s ease-out; /* 上滑動畫 */
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 卡片顯示時的樣式 */
+        #data-overlay.show {
+            bottom: 0;
+        }
+
+        /* 卡片內容樣式 */
+        #card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        #tree-id-title { font-size: 1.4em; font-weight: bold; color: #333; }
+        #close-btn { background: none; border: none; font-size: 1.8em; cursor: pointer; color: #888; padding: 0 10px; }
+
+        #card-body { font-size: 1em; color: #555; line-height: 1.6; }
+        .data-row { display: flex; justify-content: space-between; border-bottom: 1px solid #eee; padding: 8px 0; }
+        .data-label { font-weight: bold; color: #666; }
+
+        /* AR 按鈕樣式優化 */
+        #ar-button {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: #ffffff;
+            color: #333;
+            border-radius: 8px;
+            padding: 10px 15px;
+            border: 1px solid #ddd;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <model-viewer 
+        id="forest-viewer"
+        src="forest.glb"  ar 
+        ar-modes="webxr scene-viewer quick-look" 
+        camera-controls 
+        touch-action="pan-y"
+        shadow-intensity="1" 
+        environment-image="neutral" 
+        auto-rotate
+        alt="A 3D forest model with forestry data">
+        
+        <button class="hotspot-button" slot="hotspot-1" data-position="1m 0m -1m" data-normal="0 1 0" data-tree-id="T_001"></button>
+        
+        <button class="hotspot-button" slot="hotspot-2" data-position="2m 0m -2m" data-normal="0 1 0" data-tree-id="T_002"></button>
+
+        <button class="hotspot-button" slot="hotspot-3" data-position="3m 0m -3m" data-normal="0 1 0" data-tree-id="T_003"></button>
+
+        <button class="hotspot-button" slot="hotspot-4" data-position="4m 0m -4m" data-normal="0 1 0" data-tree-id="T_004"></button>
+
+        <button class="hotspot-button" slot="hotspot-5" data-position="5m 0m -5m" data-normal="0 1 0" data-tree-id="T_005"></button>
+
+        <button class="hotspot-button" slot="hotspot-8" data-position="8m 0m -8m" data-normal="0 1 0" data-tree-id="T_008"></button>
+
+        <button class="hotspot-button" slot="hotspot-9" data-position="9m 0m -9m" data-normal="0 1 0" data-tree-id="T_009"></button>
+
+        <button class="hotspot-button" slot="hotspot-10" data-position="10m 0m -10m" data-normal="0 1 0" data-tree-id="T_010"></button>
+
+        <button class="hotspot-button" slot="hotspot-11" data-position="11m 0m -11m" data-normal="0 1 0" data-tree-id="T_011"></button>
+
+        <button class="hotspot-button" slot="hotspot-12" data-position="12m 0m -12m" data-normal="0 1 0" data-tree-id="T_012"></button>
+
+        <button class="hotspot-button" slot="hotspot-13" data-position="13m 0m -13m" data-normal="0 1 0" data-tree-id="T_013"></button>
+
+        <button class="hotspot-button" slot="hotspot-14" data-position="14m 0m -14m" data-normal="0 1 0" data-tree-id="T_014"></button>
+
+        <button class="hotspot-button" slot="hotspot-15" data-position="15m 0m -15m" data-normal="0 1 0" data-tree-id="T_015"></button>
+
+        <button class="hotspot-button" slot="hotspot-17" data-position="17m 0m -17m" data-normal="0 1 0" data-tree-id="T_017"></button>
+
+        <button class="hotspot-button" slot="hotspot-19" data-position="19m 0m -19m" data-normal="0 1 0" data-tree-id="T_019"></button>
+
+        <button class="hotspot-button" slot="hotspot-20" data-position="20m 0m -20m" data-normal="0 1 0" data-tree-id="T_020"></button>
+
+        <button class="hotspot-button" slot="hotspot-21" data-position="21m 0m -21m" data-normal="0 1 0" data-tree-id="T_021"></button>
+
+        <button slot="ar-button" id="ar-button">
+            👋 進入 AR 模式
+        </button>
+    </model-viewer>
+
+    <div id="data-overlay">
+        <div id="card-header">
+            <span id="tree-id-title">Tree ID</span>
+            <button id="close-btn">&times;</button>
+        </div>
+        <div id="card-body">
+            <div class="data-row"><span class="data-label">樹種：</span><span id="data-species">-</span></div>
+            <div class="data-row"><span class="data-label">胸徑 (DBH)：</span><span id="data-dbh">-</span></div>
+            <div class="data-row"><span class="data-label">樹高：</span><span id="data-height">-</span></div>
+            <div class="data-row"><span class="data-label">材積：</span><span id="data-volume">-</span></div>
+        </div>
+    </div>
+
+    <script type="module">
+        // =========================================================
+        // 3. 關鍵步驟：將你的 JSON 資料庫內容貼在下面的大括號內
+        // (這與之前的步驟相同)
+        // =========================================================
+        const forestDatabase = {
+            "T_001": {
+                "dbh_cm": 31.3,
+                "volume_m3": 0.9303,
+                "height_m": 24.45,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_002": {
+                "dbh_cm": 39.4,
+                "volume_m3": 1.4142,
+                "height_m": 24.4,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_003": {
+                "dbh_cm": 35.8,
+                "volume_m3": 0.9621,
+                "height_m": 24.0,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_004": {
+                "dbh_cm": 17.4,
+                "volume_m3": 0.168,
+                "height_m": 15.9,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_005": {
+                "dbh_cm": 30.3,
+                "volume_m3": 0.5948,
+                "height_m": 17.1,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_008": {
+                "dbh_cm": 18.6,
+                "volume_m3": 0.1815,
+                "height_m": 16.95,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_009": {
+                "dbh_cm": 35.2,
+                "volume_m3": 0.9095,
+                "height_m": 22.0,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_010": {
+                "dbh_cm": 34.9,
+                "volume_m3": 0.8336,
+                "height_m": 22.8,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_011": {
+                "dbh_cm": 37.3,
+                "volume_m3": 0.9943,
+                "height_m": 23.8,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_012": {
+                "dbh_cm": 12.9,
+                "volume_m3": 0.0681,
+                "height_m": 9.9,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_013": {
+                "dbh_cm": 35.0,
+                "volume_m3": 1.0235,
+                "height_m": 23.1,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_014": {
+                "dbh_cm": 37.8,
+                "volume_m3": 1.256,
+                "height_m": 24.15,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_015": {
+                "dbh_cm": 35.8,
+                "volume_m3": 0.9451,
+                "height_m": 21.0,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_017": {
+                "dbh_cm": 29.8,
+                "volume_m3": 0.8068,
+                "height_m": 23.8,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_019": {
+                "dbh_cm": 40.0,
+                "volume_m3": 1.4476,
+                "height_m": 23.5,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_020": {
+                "dbh_cm": 39.7,
+                "volume_m3": 1.3057,
+                "height_m": 25.3,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            },
+            "T_021": {
+                "dbh_cm": 28.0,
+                "volume_m3": 0.4885,
+                "height_m": 19.5,
+                "species": "臺灣杉",
+                "location": {
+                    "x": 0.0,
+                    "y": 0.0
+                }
+            }
+        };
+
+        // --- DOM 元素設定 ---
+        const overlay = document.getElementById('data-overlay');
+        const treeTitle = document.getElementById('tree-id-title');
+        const closeBtn = document.getElementById('close-btn');
+
+        // 數據欄位
+        const dataSpecies = document.getElementById('data-species');
+        const dataDbh = document.getElementById('data-dbh');
+        const dataHeight = document.getElementById('data-height');
+        const dataVolume = document.getElementById('data-volume');
+
+        // --- 初始化功能：監聽所有 Hotspots 的點擊事件 ---
+        function initHotspotListeners() {
+            // 抓取所有 class 為 hotspot-button 的按鈕
+            const hotspots = document.querySelectorAll('.hotspot-button');
+            
+            hotspots.forEach(button => {
+                button.addEventListener('click', (event) => {
+                    // 1. 阻止 model-viewer 的相機移動 (避免點擊時鏡頭亂飄)
+                    event.stopPropagation();
+
+                    // 2. 從按鈕的 data-tree-id 屬性抓取 Tree ID
+                    const treeId = button.getAttribute('data-tree-id');
+                    
+                    // 3. 對接 JSON 資料庫並顯示
+                    displayTreeDetails(treeId);
+                });
+            });
+        }
+
+        // --- 對接 JSON 數據庫並更新卡片 HTML ---
+        function displayTreeDetails(tid) {
+            // 從資料庫讀取資料
+            const treeData = forestDatabase[tid];
+
+            if (treeData) {
+                // 填入數據
+                treeTitle.innerText = tid;
+                dataSpecies.innerText = treeData.species;
+                dataDbh.innerText = treeData.dbh_cm + ' cm';
+                dataHeight.innerText = treeData.height_m + ' m';
+                dataVolume.innerText = treeData.volume_m3 + ' m³';
+                
+                // 顯示卡片 (加上 'show' class)
+                overlay.classList.add('show');
+            } else {
+                console.warn(`資料庫無 ${tid} 的數據。`);
+            }
+        }
+
+        // --- 關閉卡片功能 ---
+        closeBtn.addEventListener('click', () => {
+            overlay.classList.remove('show');
+        });
+
+        // 啟動監聽
+        initHotspotListeners();
+
+    </script>
+</body>
+</html>
