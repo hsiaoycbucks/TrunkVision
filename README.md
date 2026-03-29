@@ -37,10 +37,10 @@
 | 步驟 | 圖示 | 操作說明 |
 | :--- | :---: | :--- |
 | **1. 掃描與開啟** | <img src="https://hsiaoycbucks.github.io/TrunkVision/QRcodeScanner.png" alt="Scan QR Code to view Forest Digital Twin" width="200" /> | 使用智慧型手機相機或 LINE 掃描上方的 QR Code，在瀏覽器（建議 Chrome 或 Safari）中開啟網頁。 |
-| **2. 載入模型** | (圖片空間) | 網頁開啟後，請等待立體森林模型載入完畢。您可以用手指旋轉、縮放模型進行預覽。 |
+| **2. 載入模型** | <img src="https://hsiaoycbucks.github.io/TrunkVision/MobileView.png" alt="Scan QR Code to view Forest Digital Twin" width="200" /> | 網頁開啟後，請等待立體森林模型載入完畢。您可以用手指旋轉、縮放模型進行預覽。 |
 | **3. 啟動 AR** | (圖片空間) | 點擊螢幕右下角的 **「立體方塊 (3D Cube)」** 圖示（或是顯示「進入 AR」的按鈕）。 |
 | **4. 環境掃描** | (圖片空間) | 相機開啟後，請將鏡頭對準一片空曠的**地板或桌面**，慢慢左右移動手機，直到畫面上出現網格或圓點，代表系統已成功識別平面。 |
-| **5. 投影模型** | (圖片空間) | 點擊網格區域，立體數據森林就會以 1:1 或自動比例投影在現實世界中。 |
+| **5. 投影模型** | <img src="https://hsiaoycbucks.github.io/TrunkVision/MobileARView.png" alt="Scan QR Code to view Forest Digital Twin" width="200" /> | 點擊網格區域，立體數據森林就會以 1:1 或自動比例投影在現實世界中。 |
 | **6. 數據互動** | (圖片空間) | 您可以手持手機在投影出的森林中走動。點擊樹木上的**黃色熱點 (Hotspot)**，底部會滑出該樹木的詳細胸徑、材積與樹高數據卡片。 |
 
 > **💡 技術提醒：**
