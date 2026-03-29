@@ -16,45 +16,39 @@
             --poster-color: #fafafa;
         }
 
-        /* --- 1. 熱點按鈕基礎樣式 --- */
+        /* --- 1. 熱點按鈕基礎樣式 (增加 z-index 確保不被遮擋) --- */
         .hotspot-button {
-            width: 26px;
-            height: 26px;
+            width: 24px;
+            height: 24px;
             border-radius: 50%;
             border: 2px solid #ffffff;
-            background-color: #ffcc00;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+            background-color: #ffcc00; /* 黃色 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.5);
             cursor: pointer;
-            transition: transform 0.2s;
-            opacity: 0.8;
             padding: 0;
-            position: relative; /* 讓內部標籤定位 */
+            display: block; /* 強制顯示 */
+            z-index: 100;
         }
 
-        .hotspot-button:not([data-visible]) {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        /* --- 2. 嵌入式註解標籤 (在 AR 中顯示的關鍵) --- */
+        /* --- 2. 嵌入式註解標籤樣式 --- */
         .annotation {
-            display: none; /* 平時隱藏 */
+            display: none; 
             position: absolute;
-            bottom: 35px; /* 在圓點上方 */
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.85);
             color: white;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
             font-size: 13px;
             line-height: 1.4;
             white-space: nowrap;
             border: 1px solid #ffcc00;
-            z-index: 10;
+            pointer-events: none; /* 防止干擾點擊 */
         }
 
-        /* 點擊或獲取焦點時顯示標籤 */
+        /* 點擊熱點後顯示標籤 */
         .hotspot-button:focus .annotation,
         .hotspot-button:active .annotation {
             display: block;
@@ -63,20 +57,18 @@
         .annotation-title {
             font-weight: bold;
             color: #ffcc00;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
-            margin-bottom: 4px;
-            padding-bottom: 2px;
+            margin-bottom: 2px;
         }
 
-        /* --- 3. AR 按鈕位置優化 (拔高位置) --- */
+        /* --- 3. AR 按鈕位置 --- */
         #ar-button {
             position: absolute;
-            bottom: 110px;  /* 提高位置，避開手機系統導覽條 */
+            bottom: 110px;
             right: 20px;
             background-color: #ffffff;
             color: #333;
-            border-radius: 50px; /* 膠囊狀更美觀 */
-            padding: 12px 20px;
+            border-radius: 50px;
+            padding: 10px 20px;
             border: 1px solid #ddd;
             font-weight: bold;
             box-shadow: 0 4px 12px rgba(0,0,0,0.2);
@@ -85,9 +77,6 @@
             align-items: center;
             gap: 5px;
         }
-
-        /* 移除原本的 Overlay 樣式，因為數據現在都在熱點裡了 */
-        #data-overlay { display: none; }
     </style>
 </head>
 <body>
@@ -104,23 +93,23 @@
         auto-rotate
         alt="A 3D forest model with forestry data">
         
-        <button class="hotspot-button" slot="hotspot-1" data-position="1m 0m -1m" data-normal="0 1 0" data-tree-id="T_001"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-2" data-position="2m 0m -2m" data-normal="0 1 0" data-tree-id="T_002"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-3" data-position="3m 0m -3m" data-normal="0 1 0" data-tree-id="T_003"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-4" data-position="4m 0m -4m" data-normal="0 1 0" data-tree-id="T_004"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-5" data-position="5m 0m -5m" data-normal="0 1 0" data-tree-id="T_005"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-8" data-position="8m 0m -8m" data-normal="0 1 0" data-tree-id="T_008"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-9" data-position="9m 0m -9m" data-normal="0 1 0" data-tree-id="T_009"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-10" data-position="10m 0m -10m" data-normal="0 1 0" data-tree-id="T_010"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-11" data-position="11m 0m -11m" data-normal="0 1 0" data-tree-id="T_011"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-12" data-position="12m 0m -12m" data-normal="0 1 0" data-tree-id="T_012"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-13" data-position="13m 0m -13m" data-normal="0 1 0" data-tree-id="T_013"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-14" data-position="14m 0m -14m" data-normal="0 1 0" data-tree-id="T_014"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-15" data-position="15m 0m -15m" data-normal="0 1 0" data-tree-id="T_015"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-17" data-position="17m 0m -17m" data-normal="0 1 0" data-tree-id="T_017"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-19" data-position="19m 0m -19m" data-normal="0 1 0" data-tree-id="T_019"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-20" data-position="20m 0m -20m" data-normal="0 1 0" data-tree-id="T_020"><div class="annotation"></div></button>
-        <button class="hotspot-button" slot="hotspot-21" data-position="21m 0m -21m" data-normal="0 1 0" data-tree-id="T_021"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-1" data-position="1 0 -1" data-normal="0 1 0" data-tree-id="T_001"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-2" data-position="2 0 -2" data-normal="0 1 0" data-tree-id="T_002"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-3" data-position="3 0 -3" data-normal="0 1 0" data-tree-id="T_003"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-4" data-position="4 0 -4" data-normal="0 1 0" data-tree-id="T_004"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-5" data-position="5 0 -5" data-normal="0 1 0" data-tree-id="T_005"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-8" data-position="8 0 -8" data-normal="0 1 0" data-tree-id="T_008"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-9" data-position="9 0 -9" data-normal="0 1 0" data-tree-id="T_009"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-10" data-position="10 0 -10" data-normal="0 1 0" data-tree-id="T_010"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-11" data-position="11 0 -11" data-normal="0 1 0" data-tree-id="T_011"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-12" data-position="12 0 -12" data-normal="0 1 0" data-tree-id="T_012"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-13" data-position="13 0 -13" data-normal="0 1 0" data-tree-id="T_013"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-14" data-position="14 0 -14" data-normal="0 1 0" data-tree-id="T_014"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-15" data-position="15 0 -15" data-normal="0 1 0" data-tree-id="T_015"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-17" data-position="17 0 -17" data-normal="0 1 0" data-tree-id="T_017"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-19" data-position="19 0 -19" data-normal="0 1 0" data-tree-id="T_019"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-20" data-position="20 0 -20" data-normal="0 1 0" data-tree-id="T_020"><div class="annotation"></div></button>
+        <button class="hotspot-button" slot="hotspot-21" data-position="21 0 -21" data-normal="0 1 0" data-tree-id="T_021"><div class="annotation"></div></button>
 
         <button slot="ar-button" id="ar-button">
             👋 進入 AR 模式
@@ -148,10 +137,8 @@
             "T_021": { "dbh_cm": 28.0, "volume_m3": 0.4885, "height_m": 19.5, "species": "臺灣杉" }
         };
 
-        // --- 功能：自動將數據填充到每個按鈕的註解標籤中 ---
         function populateAnnotations() {
             const hotspots = document.querySelectorAll('.hotspot-button');
-            
             hotspots.forEach(button => {
                 const treeId = button.getAttribute('data-tree-id');
                 const treeData = forestDatabase[treeId];
@@ -166,7 +153,7 @@
                     `;
                 }
 
-                // 行動端優化：點擊熱點時，讓它獲得焦點以顯示註解
+                // 點擊事件：鎖定焦點以顯示標籤
                 button.addEventListener('click', (event) => {
                     event.stopPropagation();
                     button.focus();
@@ -174,7 +161,6 @@
             });
         }
 
-        // 頁面載入後啟動功能
         document.addEventListener('DOMContentLoaded', populateAnnotations);
     </script>
 </body>
