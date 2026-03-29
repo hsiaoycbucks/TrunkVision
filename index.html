@@ -78,18 +78,16 @@
         /* AR 按鈕樣式優化 */
         #ar-button {
             position: absolute;
-            bottom: 20px;
-            right: 20px;
+            top: 20px;    /* 改為距離頂部 */
+            right: 20px;  /* 距離右邊 */
+            /* 其他樣式維持不變 */
             background-color: #ffffff;
             color: #333;
             border-radius: 8px;
             padding: 10px 15px;
             border: 1px solid #ddd;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            z-index: 999;
         }
     </style>
 </head>
