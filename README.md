@@ -23,7 +23,7 @@
 此專案已發佈至 GitHub Pages。您可以使用智慧型手機掃描下方 QR Code 進行體驗：
 
 <div align="center">
-  <img src="path/to/your/qrcode.png" alt="Scan QR Code to view Forest Digital Twin" width="200" />
+  <img src="https://hsiaoycbucks.github.io/TrunkVision/TrunkVisionQRcode.png" alt="Scan QR Code to view Forest Digital Twin" width="200" />
   <br>
   <a href="https://hsiaoycbucks.github.io/TrunkVision/">👉 點擊此處直接開啟網頁</a>
 </div>
